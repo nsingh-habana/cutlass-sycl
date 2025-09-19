@@ -52,9 +52,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
         # Suppress unsupported warning
         -Wno-unknown-warning-option
 
-        # Don’t escalate implicit-int-conversion to error
-        -Wno-error=implicit-int-conversion
-
         # Don’t escalate inline warnings to error
         -Wno-error=inline
       )
