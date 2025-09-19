@@ -44,23 +44,24 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
-  # Suppress warnings from GoogleTest headers by marking include folders as SYSTEM
-  include_directories(SYSTEM
-    ${CMAKE_CURRENT_SOURCE_DIR}/_deps/googletest-src/googletest/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/_deps/googlemock-src/googlemock/include
-  )
-
+# Relax some warnings only for gtest/gmock on IntelLLVM
+if(CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
   foreach(tgt gtest gtest_main gmock gmock_main)
-    if (TARGET ${tgt})
-      # Ignore unsupported warning flags on IntelLLVM
-      target_compile_options(${tgt} PRIVATE -Wno-unknown-warning-option)
+    if(TARGET ${tgt})
+      target_compile_options(${tgt} PRIVATE
+        # Suppress unsupported warning
+        -Wno-unknown-warning-option
 
-      # Show -Winline warnings, but don’t let them become errors
-      target_compile_options(${tgt} PRIVATE -Wno-error=inline)
+        # Don’t escalate implicit-int-conversion to error
+        -Wno-error=implicit-int-conversion
+
+        # Don’t escalate inline warnings to error
+        -Wno-error=inline
+      )
     endif()
   endforeach()
 endif()
+
 
 if (MSVC)
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
