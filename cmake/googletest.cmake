@@ -44,19 +44,13 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-# Relax some warnings only for gtest/gmock on IntelLLVM
+# Disable all warnings for google test targets
 if(CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
-  foreach(tgt gtest gtest_main gmock gmock_main)
-    if(TARGET ${tgt})
-      target_compile_options(${tgt} PRIVATE
-        # Suppress unsupported warning
-        -Wno-unknown-warning-option
-
-        # Don’t escalate inline warnings to error
-        -Wno-error=inline
-      )
-    endif()
-  endforeach()
+    foreach(tgt gtest gtest_main gmock gmock_main)
+        if(TARGET ${tgt})
+            target_compile_options(${tgt} PRIVATE -w)
+        endif()
+    endforeach()
 endif()
 
 

@@ -136,7 +136,6 @@ if (CUTLASS_ENABLE_SYCL)
        -Wno-logical-op-parentheses
        -Wno-unused-function
        -Wno-unknown-pragmas
-       -Wno-character-conversion
        -Wno-deprecated-declarations # TODO: remove after syclcompat replacement (https://github.com/intel/cutlass-sycl/pull/514)
     )
   endif()
