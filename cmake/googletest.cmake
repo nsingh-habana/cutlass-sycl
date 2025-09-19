@@ -44,15 +44,14 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest)
 
-# Disable all warnings for google test targets
+# Disable all warnings for GoogleTest targets
 if(CMAKE_CXX_COMPILER_ID STREQUAL "IntelLLVM")
     foreach(tgt gtest gtest_main gmock gmock_main)
         if(TARGET ${tgt})
-            target_compile_options(${tgt} PRIVATE -w)
+            target_compile_options(${tgt} BEFORE PRIVATE -w)
         endif()
     endforeach()
 endif()
-
 
 if (MSVC)
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
