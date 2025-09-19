@@ -33,10 +33,6 @@ if(CUTLASS_ENABLE_SYCL)
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/compat
     ${CMAKE_CURRENT_SOURCE_DIR}/tools/util/include
   )
-  # Suppress warnings from syclcompat (being replaced with compat)
-  include_directories(SYSTEM
-      /home/ghrunner/dpcpp/include/syclcompat
-  )
 else()
   cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
   cmake_policy(SET CMP0112 NEW)
@@ -140,6 +136,7 @@ if (CUTLASS_ENABLE_SYCL)
        -Wno-logical-op-parentheses
        -Wno-unused-function
        -Wno-unknown-pragmas
+       -Wno-deprecated-declarations # TODO: remove after syclcompat replacement (https://github.com/intel/cutlass-sycl/pull/514)
     )
   endif()
 
