@@ -28,6 +28,15 @@
 
 if(CUTLASS_ENABLE_SYCL)
   cmake_minimum_required(VERSION 3.22 FATAL_ERROR)
+   # Suppress warnings from compat code (planned to be removed in the future)
+  include_directories(SYSTEM
+    ${CMAKE_CURRENT_SOURCE_DIR}/tools/compat
+    ${CMAKE_CURRENT_SOURCE_DIR}/tools/util/include
+  )
+  # Suppress warnings from syclcompat (being replaced with compat)
+  include_directories(SYSTEM
+      /home/ghrunner/dpcpp/include/syclcompat
+  )
 else()
   cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
   cmake_policy(SET CMP0112 NEW)
@@ -122,6 +131,7 @@ if (CUTLASS_ENABLE_SYCL)
     set(SYCL_INTEL_TARGET ON)
     add_compile_definitions(SYCL_INTEL_TARGET)
     add_compile_options(-Wall
+       -Werror
        -Wno-unused-variable
        -Wno-unused-local-typedef
        -Wno-unused-but-set-variable
